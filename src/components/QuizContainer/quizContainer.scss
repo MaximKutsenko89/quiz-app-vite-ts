@@ -1,0 +1,47 @@
+@import '../../scss/vars.scss';
+@import '../../scss/mixin.scss';
+
+.button-wrap {
+  margin-bottom: 20px;
+  @include flexItem(flex-start, center, column);
+}
+
+.active {
+  color: #000;
+  background: $lightColor
+}
+
+.arrow-wrap {
+  @include flexItem(space-between, center);
+  width: 50%;
+  margin: 0 auto;
+
+
+  @media(max-width:$tableScreen) {
+    width: 80%;
+  }
+
+  @media(max-width:$phoneMiddleScreen) {
+    width: 100%;
+  }
+}
+
+.quiz-status {
+  font-size: 20px;
+}
+
+.progress-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 5px;
+  background: $uiBackground;
+  transition: width 0.5s;
+}
+
+.error-message {
+  position: absolute;
+  top: 15px;
+  left: 10px;
+}
+

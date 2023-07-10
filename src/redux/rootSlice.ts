@@ -4,13 +4,13 @@ interface IQuizList {
   answers: string[];
   correct_answer: string;
   correctIndex: number;
-  activeId: string | number;
+  activeId?: string | number;
   incorrect_answers: string;
 }
 interface IQuizOptions {
-  amount: string,
-  category: string,
-  difficulty: string
+  amount?: string,
+  category?: string,
+  difficulty?: string
 }
 interface RootState {
   localLoading: boolean;
@@ -33,11 +33,7 @@ interface RootState {
 const initialState: RootState = {
   localLoading: false,
   quizStarted: false,
-  quizOptions: {
-    amount: "",
-    category: "",
-    difficulty: ""
-  },
+  quizOptions: {},
   quizList: [],
   count: 0,
   analytic: [],

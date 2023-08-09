@@ -2,7 +2,7 @@ import { Button } from '../Button/Button'
 import './modal.scss'
 
 interface ModalProps {
-    text: string,
+    text: string | null,
     onConfirm: () => void,
     onCancel?: () => void,
     buttonRequired?: boolean,

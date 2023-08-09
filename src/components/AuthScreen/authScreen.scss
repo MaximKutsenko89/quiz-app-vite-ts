@@ -1,7 +1,9 @@
 @import '../../scss/vars.scss';
 @import '../../scss/mixin.scss';
+
 .form {
     @include flexItem(center, center, column);
+
     &__wrap {
         margin-bottom: 20px;
     }
@@ -42,15 +44,19 @@
         margin-right: 10px;
     }
 }
+
 .status {
     color: #ff0000;
 }
+
 .header {
     width: 100%;
+
     .container {
         padding-top: 10px;
         padding-bottom: 0;
     }
+
     &__wrap {
         @include flexItem(center);
         gap: 20px;
@@ -69,4 +75,10 @@
     width: 30px;
     height: 30px;
     cursor: pointer;
+}
+
+.alert-text {
+    color: #ff0000;
+    font-weight: 700;
+    margin-bottom: 10px;
 }

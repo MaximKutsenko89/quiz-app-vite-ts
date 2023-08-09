@@ -15,8 +15,8 @@ import {
 import { IResult } from '../../redux/types'
 import { offlineData } from './offlineData'
 import { CSSTransition } from 'react-transition-group'
-import './startScreen.scss'
 import { QuizOptions } from '../QuizOptions/QuizOptions'
+import './startScreen.scss'
 
 
 export const StartScreen: React.FC = () => {
@@ -144,7 +144,8 @@ export const StartScreen: React.FC = () => {
       </div>
       <Button
         className={`btn btn--center ${!valid ? 'btn--disabled' : ''}`}
-        onClick={() => clickHandler}
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        onClick={clickHandler}
       >
         Get started
       </Button>

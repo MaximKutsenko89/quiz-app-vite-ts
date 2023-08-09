@@ -1,35 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-interface IQuizList {
-  question: string;
-  answers: string[];
-  correct_answer: string;
-  correctIndex: number;
-  activeId?: string | number;
-  incorrect_answers: string;
-}
-interface IQuizOptions {
-  amount?: string,
-  category?: string,
-  difficulty?: string
-}
-interface RootState {
-  localLoading: boolean;
-  quizStarted: boolean;
-  quizOptions: IQuizOptions;
-  quizList: IQuizList[];
-  count: number;
-  analytic: {
-    correct: boolean | null,
-
-  }[];
-  answersCount: {
-    correct: number;
-    wrong: number;
-  };
-  errorMessage: string | null;
-  isAuthorized: boolean;
-}
-
+import { IQuizList, RootState, } from './types'
+import { IQuestion } from "../components/StartScreen/offlineData";
 const initialState: RootState = {
   localLoading: false,
   quizStarted: false,
@@ -52,8 +23,8 @@ export const rootSlice = createSlice({
     finishLoading: (state, action: PayloadAction<IQuizList[]>) => {
       state.localLoading = false;
       state.quizStarted = true;
-      state.quizList = action.payload.map((item, index) => {
-        const incorrectAnswers: string = item.incorrect_answers;
+      state.quizList = action.payload.map((item) => {
+        const incorrectAnswers = item.incorrect_answers;
         const correctAnswer = item.correct_answer;
         const randomIndex = Math.floor(Math.random() * (incorrectAnswers.length + 1));
 
@@ -74,22 +45,25 @@ export const rootSlice = createSlice({
     setQuizOptions: (state, action: PayloadAction<Record<string, unknown>>) => {
       state.quizOptions = action.payload;
     },
-    finishLoadingWithError: (state, action: PayloadAction<IQuizList[]>) => {
+    finishLoadingWithError: (state, action: PayloadAction<IQuestion[]>) => {
       state.localLoading = false;
       state.quizList = action.payload;
       state.quizStarted = true;
       state.analytic = state.quizList.map(() => ({ correct: null }));
-      state.errorMessage = 'Failed to connect to the server, using local quiz';
+      state.errorMessage = 'Something went wrong, we use local quiz';
     },
     updateCount: (state, action: PayloadAction<number>) => {
       state.count += action.payload;
     },
-    setAnalytic: (state, action: PayloadAction<{ correct: boolean | null; activeId: string | number }>) => {
+    setAnalytic: (state, action: PayloadAction<{
+      correct: boolean | null;
+      activeId: string | number | undefined
+    }>) => {
       const { correct, activeId } = action.payload;
       state.analytic[state.count].correct = correct;
-      state.quizList[state.count].activeId = activeId;
+      state.quizList[state.count].activeId  = activeId;
     },
-    setAnswersCount: (state, action: PayloadAction<{ correct: boolean }[]>) => {
+    setAnswersCount: (state, action: PayloadAction<{ correct: boolean | null }[]>) => {
       state.answersCount = action.payload.reduce(
         (accum, elem) => {
           if (elem.correct) {

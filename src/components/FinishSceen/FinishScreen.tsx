@@ -42,7 +42,7 @@ export const FinishScreen:React.FC = () => {
                 <div className={`answers ${isCorrect ? 'answers--correct' : 'answers--wrong'}`} key={index}>
                   <div>{index + 1}. {(item.question)}</div>
                   <div>You answered: <span>
-                    {(item.answers[item.activeId])}
+                    {item.answers[item.activeId as number]}
                   </span> - <span style={{ color: isCorrect ? '#1149a7' : '#ff0000' }}>{isCorrect ? 'correct' : 'wrong'}</span>
                   </div>
                   {!isCorrect && <div >The correct answer is: <span>{(item.answers[item.correctIndex])}</span></div>}

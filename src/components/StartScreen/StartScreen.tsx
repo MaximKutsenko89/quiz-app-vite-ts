@@ -12,34 +12,38 @@ import {
   setLogout,
   setQuizOptions,
 } from '../../redux/rootSlice'
+import { IResult } from '../../redux/types'
 import { offlineData } from './offlineData'
 import { CSSTransition } from 'react-transition-group'
 import './startScreen.scss'
 import { QuizOptions } from '../QuizOptions/QuizOptions'
 
 
-export const StartScreen:React.FC = () => {
+export const StartScreen: React.FC = () => {
   const dispatch = useAppDispatch()
   const quizOptions = useAppSelector((state) => state.rootSlice.quizOptions);
 
   const [valid, setValid] = useState<boolean>(false)
   const [showModal, setShowModal] = useState<boolean>(false)
-  const URL = `https://opentdb.com/api.php?amount=${quizOptions.amount}&category=${quizOptions.category}&type=multiple&difficulty=${quizOptions.difficulty}`
+  const URL = `https://opentdb.com/api.php?amount=${quizOptions.amount as string}&category=${quizOptions.category as string}&type=multiple&difficulty=${quizOptions.difficulty as string}`
 
   async function fetchData() {
     dispatch(startLoading())
     try {
       const response = await fetch(URL)
-      const data = await response.json()
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json() as IResult
+
       if (data.results.length) {
         dispatch(finishLoading(data.results))
       } else {
-        dispatch(finishLoadingWithError(offlineData.questions))
+        dispatch(finishLoadingWithError(offlineData))
       }
-
     } catch (e) {
       console.log(e);
-      dispatch(finishLoadingWithError(offlineData.questions))
+      dispatch(finishLoadingWithError(offlineData))
     }
   }
 
@@ -53,7 +57,7 @@ export const StartScreen:React.FC = () => {
     }
     setValid(isValid)
   }
-  function changeHandler(field:string, value:string) {
+  function changeHandler(field: string, value: string) {
     dispatch(setQuizOptions({
       ...quizOptions,
       [field]: value
@@ -69,7 +73,7 @@ export const StartScreen:React.FC = () => {
     let clickCount = 0
     return function () {
       if (valid) {
-        fetchData()
+        return fetchData()
       } else {
         clickCount++
         if (clickCount === 5) {
@@ -92,7 +96,7 @@ export const StartScreen:React.FC = () => {
           value={quizOptions.category || 'Select Category'}
         >
           <option value="Select Category" disabled>Select Category</option>
-          {options.categorys.map((item, index) => (
+          {options.categories.map((item, index) => (
             <option
               value={item.id}
               key={index}
@@ -109,7 +113,7 @@ export const StartScreen:React.FC = () => {
           value={quizOptions.amount || 'Select the amount of questions'}
         >
           <option value="Select the amount of questions" disabled >Select the amount of questions</option>
-          {options.amout.map((item, index) => (
+          {options.amount.map((item, index) => (
             <option
               value={item}
               key={index}
@@ -140,7 +144,7 @@ export const StartScreen:React.FC = () => {
       </div>
       <Button
         className={`btn btn--center ${!valid ? 'btn--disabled' : ''}`}
-        onClick={clickHandler}
+        onClick={() => clickHandler}
       >
         Get started
       </Button>

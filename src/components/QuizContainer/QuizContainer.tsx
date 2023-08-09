@@ -61,7 +61,7 @@ export const QuizContainer = () => {
     function finishQuiz() {
         return (<SwitchTransition>
             <CSSTransition
-                key={new Date()}
+                key={count}
                 timeout={500}
                 classNames="fade"
                 unmountOnExit
@@ -81,7 +81,7 @@ export const QuizContainer = () => {
         return (
             <Container>
                 {errorMessage && <div className='error-message'>{errorMessage}</div>}
-                <div className="progress-line" style={{ width: progressCount * (100 / quizList.length) + '%' }}></div>
+                <div className="progress-line" style={{ width: `${progressCount * (100 / quizList.length)}%` }}></div>
                 <SwitchTransition>
                     <CSSTransition
                         key={count}

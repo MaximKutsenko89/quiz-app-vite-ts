@@ -1,5 +1,5 @@
 export const options = {
-    categorys: [
+    categories: [
         { id: 10, value: 'Entertainment: Books' },
         { id: 11, value: 'Entertainment: Film' },
         { id: 12, value: 'Entertainment: Music' },
@@ -22,7 +22,7 @@ export const options = {
         { id: 29, value: 'Entertainment: Comics' },
         { id: 30, value: 'Science: Gadgets' },
     ],
-    amout: [5, 10, 15, 20],
+    amount: [5, 10, 15, 20],
     difficulty: [
         { key: 'any', value: 'Any Difficulty' },
         { key: 'easy', value: 'Easy' },
@@ -36,7 +36,7 @@ export const options = {
 
 export function findValue(value:string | number) {
     let result = null
-    const temp = options.categorys.find((item, index) => {
+    const temp = options.categories.find((item, index) => {
         if (item.id === value) {
             result = item.value
         }

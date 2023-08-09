@@ -11,6 +11,7 @@ import { CSSTransition } from 'react-transition-group'
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, Auth } from "firebase/auth"
 import { app } from './firebaseConfig'
 import { useAppDispatch } from '../../redux/hooks'
+import { FirebaseError } from 'firebase/app'
 import './authScreen.scss'
 
 interface ButtonItem {
@@ -54,7 +55,7 @@ export const AuthScreen: React.FC = () => {
           setActiveTab(1)
           setStatus(null)
         })
-        .catch((error) => {
+        .catch((error:FirebaseError) => {
           const errorCode = error.code
           const errorMessage = error.message
           console.log(errorCode)
@@ -73,16 +74,14 @@ export const AuthScreen: React.FC = () => {
     const auth: Auth = getAuth(app)
     signInWithEmailAndPassword(auth, emailValue, passwordValue)
       .then((userCredential) => {
-        const user = userCredential.user
         setLoading(false)
-        console.log(userCredential)
         setStatus('Success')
         dispatch(setAuthorized())
         if (stayLoggined) {
           localStorage.setItem('loggined', 'true')
         }
       })
-      .catch((error) => {
+      .catch((error:FirebaseError) => {
         const errorCode = error.code
         const errorMessage = error.message
         setLoading(false)
@@ -189,6 +188,7 @@ export const AuthScreen: React.FC = () => {
           {status && <div className="status">{status}</div>}
         </form>
       </Container>
+      
       {loading && <Loader />}
       <CSSTransition
         in={showModal}

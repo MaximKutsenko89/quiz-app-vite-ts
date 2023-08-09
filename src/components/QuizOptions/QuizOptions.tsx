@@ -13,7 +13,7 @@ export const QuizOptions: React.FC<QuizOptionsProps> = ({ cross }: QuizOptionsPr
 
     function removeOptionHandler(value: string | number) {  
         const filteredQuizOptions = Object.entries(quizOptions)
-            .filter(([key, val]) => {
+            .filter(([key]) => {
                 return key !== value
             })
         dispatch(setQuizOptions(Object.fromEntries(filteredQuizOptions)))

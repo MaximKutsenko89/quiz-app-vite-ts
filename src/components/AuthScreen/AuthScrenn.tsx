@@ -39,7 +39,7 @@ export const AuthScreen: React.FC = () => {
     setLoading(true)
     const auth: Auth = getAuth(app)
     createUserWithEmailAndPassword(auth, emailValue, passwordValue)
-      .then((userCredential) => {
+      .then(() => {
         setLoading(false)
         setStatus('User successfully created, now log in')
         setShowModal(true)
@@ -57,7 +57,7 @@ export const AuthScreen: React.FC = () => {
     setLoading(true)
     const auth: Auth = getAuth(app)
     signInWithEmailAndPassword(auth, emailValue, passwordValue)
-      .then((userCredential) => {
+      .then(() => {
         setLoading(false)
         dispatch(setAuthorized())
         if (stayLoggined) {
@@ -65,7 +65,6 @@ export const AuthScreen: React.FC = () => {
         }
       })
       .catch((error: FirebaseError) => {
-        const errorCode = error.code
         const errorMessage = error.message
         setLoading(false)
         setStatus(errorMessage)

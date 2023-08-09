@@ -36,7 +36,7 @@ export const options = {
 
 export function findValue(value:string | number) {
     let result = null
-    const temp = options.categories.find((item, index) => {
+    options.categories.find((item) => {
         if (item.id === value) {
             result = item.value
         }
